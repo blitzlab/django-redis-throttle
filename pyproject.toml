@@ -1,0 +1,71 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-redis-throttle"
+dynamic = ["version"]
+description = "Atomic, Redis-backed rate limiting for Django and Django REST Framework: fixed window, sliding window and token bucket."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Owolabi Badmus" }]
+keywords = ["django", "rate limit", "throttle", "redis", "drf", "token bucket", "sliding window"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6.0",
+    "Framework :: Django :: 6.1",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: WWW/HTTP",
+    "Typing :: Typed",
+]
+dependencies = ["Django>=5.2", "redis>=5.0"]
+
+[project.optional-dependencies]
+drf = ["djangorestframework>=3.15"]
+
+[project.urls]
+Homepage = "https://github.com/blitzlab/django-redis-throttle"
+Source = "https://github.com/blitzlab/django-redis-throttle"
+Issues = "https://github.com/blitzlab/django-redis-throttle/issues"
+Changelog = "https://github.com/blitzlab/django-redis-throttle/blob/main/CHANGELOG.md"
+
+[dependency-groups]
+test = ["pytest>=8.3", "pytest-django>=4.9", "djangorestframework>=3.15"]
+
+[tool.hatch.version]
+path = "src/redis_throttle/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/redis_throttle"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "tests", "docs", "README.md", "CHANGELOG.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "tests.settings"
+pythonpath = [".", "src"]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.ruff.lint.per-file-ignores]
+# DRF declares throttle_classes as mutable class attributes by convention.
+"tests/*" = ["RUF012"]
