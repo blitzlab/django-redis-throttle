@@ -43,6 +43,7 @@ Changelog = "https://github.com/blitzlab/django-redis-throttle/blob/main/CHANGEL
 
 [dependency-groups]
 test = ["pytest>=8.3", "pytest-django>=4.9", "djangorestframework>=3.15"]
+lint = ["ruff==0.17.3"]
 
 [tool.hatch.version]
 path = "src/redis_throttle/__init__.py"

@@ -8,7 +8,7 @@ Thanks for helping out. Bug reports, docs fixes and new features are all welcome
 git clone https://github.com/blitzlab/django-redis-throttle
 cd django-redis-throttle
 python -m venv .venv && source .venv/bin/activate
-pip install -e . pytest pytest-django djangorestframework ruff
+pip install -e . pytest pytest-django djangorestframework "ruff==0.17.3"
 docker run -d -p 6379:6379 redis:7
 ```
 

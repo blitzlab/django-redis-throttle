@@ -49,11 +49,13 @@ Requires Python 3.10+, Django 5.2+, redis-py 5+, and Redis 6.2+.
 ```python
 from redis_throttle import ratelimit
 
+
 @ratelimit("5/m", key="ip", methods=["POST"])
 def login(request): ...
 
+
 @ratelimit("1000/h", key="user_or_ip", algorithm="token_bucket")
-@ratelimit("20/s", key="user_or_ip")   # stack limits; headers report the tightest
+@ratelimit("20/s", key="user_or_ip")  # stack limits; headers report the tightest
 def search(request): ...
 ```
 
@@ -64,6 +66,7 @@ Per-plan limits: pass a callable that returns a rate, or `None` for unlimited.
 ```python
 def plan_rate(group, request):
     return None if request.user.plan == "enterprise" else "100/m"
+
 
 @ratelimit(plan_rate, key="user")
 def export(request): ...
@@ -110,8 +113,8 @@ decision = limiter.hit("stripe-api", "90/s", algorithm="token_bucket")
 if not decision.allowed:
     raise self.retry(countdown=decision.retry_after)
 
-limiter.hit(f"export:{user.pk}", "100/h", cost=25)   # weighted requests
-limiter.peek(f"export:{user.pk}", "100/h")           # inspect without consuming
+limiter.hit(f"export:{user.pk}", "100/h", cost=25)  # weighted requests
+limiter.peek(f"export:{user.pk}", "100/h")  # inspect without consuming
 ```
 
 ## Choosing an algorithm
@@ -144,7 +147,7 @@ See [docs/algorithms.md](docs/algorithms.md) for the maths and the trade-offs.
 
 ```bash
 docker run -d -p 6379:6379 redis:7
-pip install -e . pytest pytest-django djangorestframework ruff
+pip install -e . pytest pytest-django djangorestframework "ruff==0.17.3"
 pytest
 ruff check . && ruff format --check .
 ```
